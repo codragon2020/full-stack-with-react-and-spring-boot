@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import Counter from './components/counter/Counter';
+import TodoApp from './components/todo/TodoApp';
+// import Counter from './components/counter/Counter';
 import './App.css';
  
 class App extends Component {
   render() {
     return (
-      <div className="counter">
-        <Counter/>
+      <div className="App">
+        {/* <Counter/> */}
+        <TodoApp/>
       </div>
     );
   }
