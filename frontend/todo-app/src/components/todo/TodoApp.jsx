@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom'
 import withNavigation from './WithNavigation';
 import withParams from './withParams';
 
@@ -10,6 +10,7 @@ class TodoApp extends Component {
 		return (
 			<div className="TodoApp">
                 <Router>
+                    <HeaderComponent/>
                     <Routes>
                         <Route path="/" element={<LoginComponent />} />
                         <Route path="/login" element={<LoginComponentWithNavigation />}/>
@@ -17,10 +18,41 @@ class TodoApp extends Component {
                         <Route path="/todos" element={<ListTodosComponent />} />
                         <Route path="*" element={<ErrorComponent/>}/>
                     </Routes>
+                    <FooterComponent/>
                 </Router>
 			</div>
 		);
 	}
+}
+
+class HeaderComponent extends Component {
+    render() {
+        return (
+            <header>
+                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                    <div><a href="https://jmcginthyportfolio.netlify.app/" className='navbar-brand'>My Homepage</a></div>
+                    <ul className="navbar-nav">
+                        <li><Link className='nav-link' to="/welcome/IndiaPaleAle">Home</Link></li>
+                        <li><Link className='nav-link' to="/todos">Todos</Link></li>
+                    </ul>
+                    <ul className="navbar-nav navbar-collapse justify-content-end">
+                        <li><Link className='nav-link' to="/login">Login</Link></li>
+                        <li><Link className='nav-link' to="/logout">Logout</Link></li>
+                    </ul>
+                </nav>
+            </header>
+        )
+    }
+}
+
+class FooterComponent extends Component {
+    render() {
+        return (
+            <div>
+                <hr/>Footer
+            </div>
+        )
+    }
 }
 
 class ListTodosComponent extends Component {
@@ -29,9 +61,9 @@ class ListTodosComponent extends Component {
         this.state = {
             todos :
             [
-                {id: 1, description : 'Learn React'},
-                {id: 2, description : 'Learn Java'},
-                {id: 3, description : 'Learn Spring Boot'}
+                {id: 1, description : 'Learn React', done:false, targetDate: new Date()},
+                {id: 2, description : 'Learn Java', done:false, targetDate: new Date()},
+                {id: 3, description : 'Learn Spring Boot', done:false, targetDate: new Date()}
             ]
         }
     }
@@ -45,15 +77,18 @@ class ListTodosComponent extends Component {
                         <tr>
                             <th>id</th>
                             <th>description</th>
+                            <th>Is Completed?</th>
+                            <th>Target Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             this.state.todos.map (
                                 todo =>
-                                    <tr>
-                                        <td>{todo.id}</td>
+                                    <tr key={todo.id}>
                                         <td>{todo.description}</td>
+                                        <td>{todo.done.toString()}</td>
+                                        <td>{todo.targetDate.toString()}</td>
                                     </tr>
                             )
                         }
@@ -66,7 +101,12 @@ class ListTodosComponent extends Component {
 
 class WelcomeComponent extends Component {
     render() {
-        return <div>Welcome to my Website {this.props.params.name}</div>
+        return (
+            <div>
+                Welcome to my Website {this.props.params.name}
+                <br/>
+                Manage your todos <Link to='/todos'>here</Link>    
+            </div>)
     }
 }
 
@@ -126,7 +166,7 @@ class LoginComponent extends Component {
 					value={this.state.password}
 					onChange={this.handleChange}
 				/>
-				<button onClick={this.loginClicked}>Login</button>
+				<button className="btn btn-success" onClick={this.loginClicked}>Login</button>
 			</div>
 		);
 	}
