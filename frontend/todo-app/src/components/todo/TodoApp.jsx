@@ -8,10 +8,11 @@ class TodoApp extends Component {
 	render() {
 		const LoginComponentWithNavigation = withNavigation(LoginComponent);
 		const WelcomeComponentWithParams = withParams(WelcomeComponent);
+        const HeaderComponentWithNavigation = withNavigation(HeaderComponent);
 		return (
 			<div className="TodoApp">
 				<Router>
-					<HeaderComponent />
+					<HeaderComponentWithNavigation />
 					<Routes>
 						<Route path="/" element={<LoginComponent />} />
 						<Route path="/login" element={<LoginComponentWithNavigation />} />
@@ -32,6 +33,10 @@ class TodoApp extends Component {
 
 class HeaderComponent extends Component {
 	render() {
+
+        const isUserLoggedIn = AuthenticationService.isUserLoggedIn()
+        //console.log(isUserLoggedIn)
+
 		return (
 			<header>
 				<nav className="navbar navbar-expand-md navbar-dark bg-dark">
@@ -44,28 +49,28 @@ class HeaderComponent extends Component {
 						</a>
 					</div>
 					<ul className="navbar-nav">
-						<li>
+						{isUserLoggedIn && <li>
 							<Link className="nav-link" to="/welcome/IndiaPaleAle">
 								Home
 							</Link>
-						</li>
-						<li>
+						</li>}
+						{isUserLoggedIn && <li>
 							<Link className="nav-link" to="/todos">
 								Todos
 							</Link>
-						</li>
+						</li>}
 					</ul>
 					<ul className="navbar-nav navbar-collapse justify-content-end">
-						<li>
+						{!isUserLoggedIn && <li>
 							<Link className="nav-link" to="/login">
 								Login
 							</Link>
-						</li>
-						<li>
+						</li>}
+						{isUserLoggedIn && <li>
 							<Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>
 								Logout
 							</Link>
-						</li>
+						</li>}
 					</ul>
 				</nav>
 			</header>
