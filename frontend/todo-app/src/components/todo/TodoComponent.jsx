@@ -9,15 +9,15 @@ class TodoComponent extends Component {
  
         this.state = {
             id: this.props.params.id, //REACT-6
-            description : 'Learn Forms',
+            description : 'Learn Forms Now',
             targetDate : moment(new Date()).format('YYYY-MM-DD')
         }
         
-        // this.onSubmit = this.onSubmit.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
-    // onSubmit(values) {
- 
+    onSubmit(values) {
+        console.log(values)
     //     //OTHER CODE
      
     //     if (this.state.id === -1) {
@@ -29,13 +29,18 @@ class TodoComponent extends Component {
     //             .then(() => this.props.navigate('/todos'))//REACT-6
     //         //this.props.history.push('/todos')
     //     }
-    // }
+    }
     render() {
+        let { description, targetDate } = this.state
+
         return(
             <div>
                 <h1>Todo</h1>
                 <div className="container">
-                    <Formik>
+                    <Formik 
+                        initialValues={{description,targetDate}}
+                        onSubmit={this.onSubmit}
+                    >
                         {
                             (props) => (
                                 <Form>
