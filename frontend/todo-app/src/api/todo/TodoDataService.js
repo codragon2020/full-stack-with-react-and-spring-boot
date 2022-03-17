@@ -15,6 +15,11 @@ class TodoDataService {
         console.log('executed deleteTodo')
         return axios.delete(`http://localhost:8080/users/${name}/todos/${id}`);
     }
+
+    updateTodo(name, id, todo) {
+        console.log('executed updateTodo')
+        return axios.put(`http://localhost:8080/users/${name}/todos/${id}`, todo);
+    }
 }
 
 export default new TodoDataService()
